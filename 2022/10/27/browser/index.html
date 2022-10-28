@@ -328,6 +328,54 @@
 <h2 id="合成技术"><a href="#合成技术" class="headerlink" title="合成技术"></a>合成技术</h2><p>​	合成技术主要是对不同的元素进行分层，主线程需要遍历渲染树来创建层次树，在层次树上分了不同层。对于加了 will-change 的 CSS 属性会在同一层上。</p>
 <p>​	合成线程会对每层进行光栅化。有的层大小较大，合成线程会把改层切成小图块（绘画四边形），分别发给光栅化进程，这个时候光栅化进程会把像素信息存在 GPU 进程内存中。（这里可以理解为，合成进程干轻活，遇到重活，就分成轻活给光栅化进程干）</p>
 <p>​	合成线程在光栅化线程赋予了不同的优先等级，在视口或者视口附近的地方优先级较高，会先被光栅化，完了之后，合成线程会形成合成帧。此时把合成帧发送到 GPU 进程处理，渲染到页面上。</p>
+<h2 id="浏览器事件处理"><a href="#浏览器事件处理" class="headerlink" title="浏览器事件处理"></a>浏览器事件处理</h2><p>​	当触发事件的时候，浏览器进程接收到事件信息（具体位置和触发类型），把事件信息传送给渲染进程，渲染进程遍历渲染树找到对象，运行绑定的监听函数。实际上需要分以下两个步骤：查找事件发生位置、处理事件</p>
+<h3 id="查找事件对象"><a href="#查找事件对象" class="headerlink" title="查找事件对象"></a>查找事件对象</h3><p>合成器线程是第一个收到事件消息的，合成器判断事件发生的地方不在非快速滚动区域之后，合成器线程会向主线程发送事件信息，主线程进行命中测试找到事件发生对应的目标元素。 命中测试主要是遍历在布局形成的绘画记录（渲染过程第5步）中来找到事件发生坐标上的元素对象。</p>
+<h3 id="合成器线程接收事件"><a href="#合成器线程接收事件" class="headerlink" title="合成器线程接收事件"></a>合成器线程接收事件</h3><p>​	当区域内没有绑定事件的时候，合成器线程可以独立于主线程之外，直接利用已经光栅化的层来形成新的帧。但是当区域内绑定了事件（非快速滚动区域），需要等主线程处理事件。此时，事件处理有可能会导致重绘或者重排。</p>
+<p>​	当把事件绑定在 body 上的时候，出现整个 body 都是非快速滚动区域，此时，页面内没有绑定事件的区域不能让合成器独立合成帧了。</p>
+<p>​	那要是非要这样处理才能满足业务需求呢？那就在 addEventListener 第三个参数处，改为 true ，那么 passive 会告诉浏览器你既要绑定事件，又要让组合器线程直接跳过主线程的事件处理直接合成创建组合帧。（？？？？why）</p>
+<h3 id="浏览器对事件的优化"><a href="#浏览器对事件的优化" class="headerlink" title="浏览器对事件的优化"></a>浏览器对事件的优化</h3><ul>
+<li><p>一般的浏览器的刷新率为60Hz，也就是说，1秒钟就会刷新60次，也就是说，大概每过<code>16.6ms</code>浏览器会渲染一帧画面</p>
+</li>
+<li><p>所以我们一般希望动画间隔时间为16.6ms</p>
+<ul>
+<li>快了：更快一点也是一样的效果为什么要消耗这个资源去做无意义的事</li>
+<li>慢了：出现掉帧现象</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>RAF : 请求动画帧。</p>
+<ol>
+<li>会把每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率</li>
+<li>在隐藏或不可见的元素中，<code>requestAnimationFrame</code>将不会进行重绘或回流，这当然就意味着更少的的cpu，gpu和内存使用量</li>
+</ol>
+</blockquote>
+<p>RAF要求浏览器在下次重绘之前调用指定的回调函数更新动画</p>
+<p>​    用 JS 实现一般使用 setTimeout 和 setInterval 来进行循环不稳，可能出现掉帧或者出现卡顿情况。因为setTimeout、setInterval宏任务，这里涉及到浏览器的 Event loop</p>
+<p>​    <code>requestAniamationFrame</code>的执行步伐是跟着系统走的（不受其他任务的影响），如果系统的绘制频率是60Hz，那么回调函数就每16.7ms被执行一次–这样不会引起丢帧（时间执行快了）现象也不会卡顿（时间执行慢了）。当页面处于不可见或不可用状态时，浏览器就会停止动画，这意味着更少的CPU和更少的内存消耗。</p>
+<blockquote>
+<p>丢帧： 最上面的一行代表大多数监视器上显示的16.7ms显示频率，最下面的一行代表10ms的典型setTimeout。由于在显示刷新间隔之前发生了另一个绘制请求，因此无法绘制每三个绘制（用红色箭头指示）。</p>
+</blockquote>
+<p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221028144603.png"></p>
+<h2 id="兼容性："><a href="#兼容性：" class="headerlink" title="兼容性："></a>兼容性：</h2><p>由于requestAnimationFrame目前还存在兼容性问题，而且不同的浏览器还需要带不同的前缀，如果不支持requestAnimationFrame和cancelAnimationFrame，则使用setTimeout和clearTimeout。兼容性封装：</p>
+<pre><code class="js">window.requestAnimationFrame = window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.msRequestAnimationFrame ||
+  function (callback) &#123;
+    //为了使setTimteout的尽可能的接近每秒60帧的效果
+    window.setTimeout(callback, 1000 / 60)
+  &#125;
+
+window.cancelAnimationFrame = window.cancelAnimationFrame ||
+  Window.webkitCancelAnimationFrame ||
+  window.mozCancelAnimationFrame ||
+  window.msCancelAnimationFrame ||
+  function (id) &#123;
+    window.clearTimeout(id)
+  &#125;;
+</code></pre>
+<h2 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022633988">https://segmentfault.com/a/1190000022633988</a><br><a target="_blank" rel="noopener" href="https://blog.poetries.top/browser-working-principle/guide/part1/lesson01.html#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B">https://blog.poetries.top/browser-working-principle/guide/part1/lesson01.html#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B</a></p>
 
   </div>
   <div id="gitalk-container"></div>
