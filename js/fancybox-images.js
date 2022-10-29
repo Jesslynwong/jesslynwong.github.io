@@ -1,14 +1,1 @@
-
-$(document).ready(function() {
-    $('#article img').each(function() {
-      if ($(this).parent().hasClass('fancybox')) return;
-      if ($(this).hasClass('nofancybox')) return;
-      var alt = this.alt;
-      $(this).wrap(
-          '<a href="' + ($(this).attr('data-original') == null ? this.src : 
-          $(this).attr('data-original')) + '" title="' + alt + '" data-original="'+ this.src +'" class="fancybox" data-fancybox="fancybox-gallery-img"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article');
-    });
-});
+"use strict";$(document).ready(function(){$("#article img").each(function(){var a;$(this).parent().hasClass("fancybox")||$(this).hasClass("nofancybox")||(a=this.alt,$(this).wrap('<a href="'+(null==$(this).attr("data-original")?this.src:$(this).attr("data-original"))+'" title="'+a+'" data-original="'+this.src+'" class="fancybox" data-fancybox="fancybox-gallery-img"></a>'))}),$(this).find(".fancybox").each(function(){$(this).attr("rel","article")})});
