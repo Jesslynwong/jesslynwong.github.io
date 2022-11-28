@@ -1,4 +1,401 @@
-<!DOCTYPE html><html><head><title>前端不可不知道的计算机网络知识点</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="shortcut icon" type="image/x-icon" href="/image/logo.jpg"><link rel="stylesheet" href="/css/index.css"><meta name="keywords" content="http,tcp,"><meta name="description" content=""><script src="/js/jquery.min.js"></script><script src="/js/index.js"></script><script src="/js/fancybox.umd.js"></script><script src="/js/fancybox-images.js"></script><script src="/js/gitalk.min.js"></script><script src="/js/hljs.min.js"></script><script>hljs.highlightAll()</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="header"><div class="header-top" id="header-top"><div class="h-left"><a href="/"><img src="/image/loading.gif" data-original="/image/header.png" alt="Quiet"></a></div><div class="h-right"><ul><li><a href="/">HOME</a><span class="dot"></span></li><li><a href="/archives">ARCHIVE</a><span class="dot"></span></li><li><a href="/tags">TAGS</a><span class="dot"></span></li><li><a href="/about">ABOUT ME</a><span class="dot"></span></li></ul></div><div class="h-right-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)"/></svg></div></div></div><div class="sidebar"><div class="topo"><h2>Jesslyn wongkayan</h2></div><ul><li><a href="/">HOME</a></li><li><a href="/archives">ARCHIVE</a></li><li><a href="/tags">TAGS</a></li><li><a href="/about">ABOUT ME</a></li></ul><div class="my_foot"><a target="_blank" rel="noopener" href="https://github.com/Jesslynwong"><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题"></a></div></div><div class="shelter"></div><style>.shelter{background-color:#333;opacity:.5;cursor:pointer;display:none;position:fixed;left:0;top:0;right:0;bottom:0;z-index:1998}.sidebar{width:66%;height:100%;position:fixed;top:0;right:-100%;bottom:0;background:#fff;z-index:1999;text-align:center;box-shadow:-6px 0 20px rgba(98,94,94,.815)}.topo{width:100%;height:200px;background:url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;background-size:100% 100%;position:relative;display:flex;align-items:flex-end}.topo h2{color:#fff;z-index:1;position:relative;margin:0 0 10px 10px;font-size:1.2em;box-sizing:border-box}.topo:before{content:'';background-image:url(/image/pattern.png);background-repeat:repeat;height:100%;left:0;position:absolute;top:0;width:100%;z-index:1}.sidebar ul{width:100%;margin-top:50px}.sidebar ul li{height:50px;list-style:none;font-size:1.2em;text-align:right;margin-right:10px}.sidebar ul li a{display:grid;color:#5d606a;text-overflow:ellipsis;width:100%;text-decoration:none}.my_foot{width:100%;padding:10px;margin-bottom:10px;position:absolute;bottom:0}.my_foot a{text-decoration:none;margin-right:10px;display:inline-block}.my_foot a img{width:30px;height:30px}</style><script>$(function(){$(".h-right-close>svg").click(function(){$(".sidebar").animate({right:"0"},500),$(".shelter").fadeIn("slow")}),$(".shelter").click(function(e){$(".sidebar").animate({right:"-100%"},500),$(".shelter").fadeOut("slow")})})</script><div class="post"><div class="post-header-background post-header-img" style="background:url(https://api.ixiaowai.cn/gqapi/gqapi.php)"><div class="post-header-background-content"><ul class="post-header-tag"><li><a href="/tags/http">http</a></li><li><a href="/tags/tcp">tcp</a></li></ul><h1>前端不可不知道的计算机网络知识点</h1><div class="post-header-info"><div class="post-header-info-author"><svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20"><path d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1zm0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4zm0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6zm0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9zm0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z" p-id="2902" fill="#ffffff"></path></svg> <span class="post-header-info-author-text"><a target="_blank" rel="noopener" href="https://jesslynwong.github.io/about">Jesslyn</a></span><div class="post-header-info-author-categories"></div><p>2022-05-11 12:39:36</p></div></div></div></div><div class="post-content" id="content"><div id="article" class="post-content-info"><h2 id="http协议发展"><a href="#http协议发展" class="headerlink" title="http协议发展"></a>http协议发展</h2><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103123411.png"></p><h2 id="http报文解析"><a href="#http报文解析" class="headerlink" title="http报文解析"></a>http报文解析</h2><h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><table><thead><tr><th>状态码</th><th>含义</th></tr></thead><tbody><tr><td>1xx</td><td>请求已接受，继续处理</td></tr><tr><td>2xx</td><td>请求已收到</td></tr><tr><td>201</td><td>创建成功</td></tr><tr><td>204</td><td>删除资源成功</td></tr><tr><td>3xx</td><td>重定向，需要完成进一步操作，才能完成请求</td></tr><tr><td>301</td><td>资源永久移动到别的URL</td></tr><tr><td>302</td><td>暂时跳转</td></tr><tr><td>304</td><td>使用缓存</td></tr><tr><td>4xx</td><td>客户端错误。</td></tr><tr><td>401</td><td>未经授权</td></tr><tr><td>404</td><td>请求资源不存在</td></tr><tr><td>5xx</td><td>服务端出现问题</td></tr><tr><td>500</td><td>服务器内部问题</td></tr><tr><td>504</td><td>Timeout ，网关或者代理服务器超时得到想要的响应</td></tr></tbody></table><h3 id="常见报文头"><a href="#常见报文头" class="headerlink" title="常见报文头"></a>常见报文头</h3><h4 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h4><p>信息相关：origin, referer，accept, content-type<br>会话保持相关：cookie<br>缓存相关：cache-control, max-age, expire, if-none-match</p><h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><p>信息相关：server<br>会话保持相关：access-control-allow-origin, set-cookie<br>缓存相关：cache-control, max-age, expire, last-modified, etag</p><h3 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h3><ul><li>get：获取资源</li><li>post：修改资源</li><li>head：只获取报文头</li><li>put：主要用于取代特定资源</li><li>patch：put的补充，用于局部资源更新</li><li>delete：删除资源</li><li>Options：查看服务器性能，预检请求</li><li>trace：回显服务器请求，用于测试性能<br>特点：安全性（get, head, options）、幂等性</li></ul><h2 id="http和https的区别"><a href="#http和https的区别" class="headerlink" title="http和https的区别"></a>http和https的区别</h2><ol><li>http 明文传输，不加密。https加密 http + tls&#x2F;ssl</li><li>Https 基于CA 证书进行认证是否可信网站</li><li>连接前验证，https 页面响应比较慢</li><li>http 3次握手3个包，https加上tls握手9个包，跟小号资源</li><li>对应tcp端口号：http80; https 443</li></ol><h2 id="TLS-连接"><a href="#TLS-连接" class="headerlink" title="TLS 连接"></a>TLS 连接</h2><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103101218.png"></p><h2 id="TCP三次握手-amp-四次挥手"><a href="#TCP三次握手-amp-四次挥手" class="headerlink" title="TCP三次握手 &amp; 四次挥手"></a>TCP三次握手 &amp; 四次挥手</h2><p>双方Seq都是随机数<br>ack：希望下个请求收到<br>seq:当前收到这个序列数<br><strong>SYN (synchronize)是请求同步的意思，ACK是确认同步的意思,</strong> seq 来确定顺序，并且能够确定是否有数据包丢失。</p><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103103258.png"></p><h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103104045.png"><br>报文段最大生存时间MSL, 一来一回</p><h3 id="为什么三次握手"><a href="#为什么三次握手" class="headerlink" title="为什么三次握手"></a>为什么三次握手</h3><p>结论：双方都需要判断对方接受能力和发送能力OK才行<br>第一次：服务端：client发送能力可以，server接受能力可以<br>第二次：客户端：server接受能力可以、发送能力可以，但server不知道client是否接受能力可以<br>第三次：服务端：client接受能力可以</p><h2 id="TCP-和-UDP-的区别"><a href="#TCP-和-UDP-的区别" class="headerlink" title="TCP 和 UDP 的区别"></a>TCP 和 UDP 的区别</h2><p>tcp和udp的数据包来进行阐述这个问题，主要遵循以下逻辑报文头 -&gt; 大小 -&gt; 运输方式 -&gt; 是否可靠 -&gt; 连接对象 -&gt; 应用场景</p><ol><li>从数据报上看：UDP 首部字段主要有 源端口、目的端口、长度、校验和。通过以上报文判断，是否数据包可接受，如果有错那么进行丢弃。TCP除了以上字段以外，主要判断报文是否丢弃，主要通过 ACK SYN 进行判断，当前报文是否准确收到。</li><li>TCP报文的大小就比UDP大</li><li>TCP 需要实现可靠交付主要通过以上报文以及重传机制等保证可靠交付，消耗资源来说，TCP是大于UDP的，并且UDP没有三次握手和四次挥手，连接时间上来说，UDP是更快一些</li><li>对于运输方式来说：TCP是面向字节流，UDP是面向报文</li><li>从连接对象上来说：UDP支持，一对一，一对多，多对一，多对多的情况；而TCP只能是面对一对一</li><li>以上导致了他们的应用场景不同：UDP 主要适用于实时应用，对于报文丢失的容错比较大，主要用于IP电话、视频、直播等。而TCP 主要用于可靠性大的场景，如文件传输等。</li></ol></div><div id="gitalk-container"></div></div><script>Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>前端不可不知道的计算机网络知识点</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/logo.jpg">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="http,tcp,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/loading.gif" data-original="/image/header.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT ME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>Jesslyn wongkayan</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT ME</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Jesslynwong">
+            <img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/http">http</a></li>
+            
+            <li><a href="/tags/tcp">tcp</a></li>
+            
+            
+        </ul>
+        
+        <h1>前端不可不知道的计算机网络知识点</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a target="_blank" rel="noopener" href="https://jesslynwong.github.io/about">Jesslyn</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                </div>
+                <p>2022-05-11 12:39:36</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h2 id="http协议发展"><a href="#http协议发展" class="headerlink" title="http协议发展"></a>http协议发展</h2><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103123411.png"></p>
+<h2 id="http报文解析"><a href="#http报文解析" class="headerlink" title="http报文解析"></a>http报文解析</h2><h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1xx</td>
+<td>请求已接受，继续处理</td>
+</tr>
+<tr>
+<td>2xx</td>
+<td>请求已收到</td>
+</tr>
+<tr>
+<td>201</td>
+<td>创建成功</td>
+</tr>
+<tr>
+<td>204</td>
+<td>删除资源成功</td>
+</tr>
+<tr>
+<td>3xx</td>
+<td>重定向，需要完成进一步操作，才能完成请求</td>
+</tr>
+<tr>
+<td>301</td>
+<td>资源永久移动到别的URL</td>
+</tr>
+<tr>
+<td>302</td>
+<td>暂时跳转</td>
+</tr>
+<tr>
+<td>304</td>
+<td>使用缓存</td>
+</tr>
+<tr>
+<td>4xx</td>
+<td>客户端错误。</td>
+</tr>
+<tr>
+<td>401</td>
+<td>未经授权</td>
+</tr>
+<tr>
+<td>404</td>
+<td>请求资源不存在</td>
+</tr>
+<tr>
+<td>5xx</td>
+<td>服务端出现问题</td>
+</tr>
+<tr>
+<td>500</td>
+<td>服务器内部问题</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Timeout ，网关或者代理服务器超时得到想要的响应</td>
+</tr>
+</tbody></table>
+<h3 id="常见报文头"><a href="#常见报文头" class="headerlink" title="常见报文头"></a>常见报文头</h3><h4 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h4><p>信息相关：origin, referer，accept, content-type<br>会话保持相关：cookie<br>缓存相关：cache-control, max-age, expire, if-none-match</p>
+<h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><p>信息相关：server<br>会话保持相关：access-control-allow-origin, set-cookie<br>缓存相关：cache-control, max-age, expire, last-modified, etag</p>
+<h3 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h3><ul>
+<li>get：获取资源</li>
+<li>post：修改资源 </li>
+<li>head：只获取报文头</li>
+<li>put：主要用于取代特定资源</li>
+<li>patch：put的补充，用于局部资源更新</li>
+<li>delete：删除资源</li>
+<li>Options：查看服务器性能，预检请求</li>
+<li>trace：回显服务器请求，用于测试性能<br>特点：安全性（get, head, options）、幂等性</li>
+</ul>
+<h2 id="http和https的区别"><a href="#http和https的区别" class="headerlink" title="http和https的区别"></a>http和https的区别</h2><ol>
+<li>http 明文传输，不加密。https加密 http + tls&#x2F;ssl</li>
+<li>Https 基于CA 证书进行认证是否可信网站</li>
+<li>连接前验证，https 页面响应比较慢</li>
+<li>http 3次握手3个包，https加上tls握手9个包，跟小号资源</li>
+<li>对应tcp端口号：http80; https 443</li>
+</ol>
+<h2 id="TLS-连接"><a href="#TLS-连接" class="headerlink" title="TLS 连接"></a>TLS 连接</h2><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103101218.png"></p>
+<h2 id="TCP三次握手-amp-四次挥手"><a href="#TCP三次握手-amp-四次挥手" class="headerlink" title="TCP三次握手 &amp; 四次挥手"></a>TCP三次握手 &amp; 四次挥手</h2><p>双方Seq都是随机数<br>ack：希望下个请求收到<br>seq:当前收到这个序列数<br><strong>SYN (synchronize)是请求同步的意思，ACK是确认同步的意思,</strong> seq 来确定顺序，并且能够确定是否有数据包丢失。</p>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103103258.png"></p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221103104045.png"><br>报文段最大生存时间MSL, 一来一回</p>
+<h3 id="为什么三次握手"><a href="#为什么三次握手" class="headerlink" title="为什么三次握手"></a>为什么三次握手</h3><p>结论：双方都需要判断对方接受能力和发送能力OK才行<br>第一次：服务端：client发送能力可以，server接受能力可以<br>第二次：客户端：server接受能力可以、发送能力可以，但server不知道client是否接受能力可以<br>第三次：服务端：client接受能力可以</p>
+<h2 id="TCP-和-UDP-的区别"><a href="#TCP-和-UDP-的区别" class="headerlink" title="TCP 和 UDP 的区别"></a>TCP 和 UDP 的区别</h2><p>tcp和udp的数据包来进行阐述这个问题，主要遵循以下逻辑报文头 -&gt; 大小 -&gt; 运输方式 -&gt; 是否可靠 -&gt; 连接对象 -&gt; 应用场景</p>
+<ol>
+<li>从数据报上看：UDP 首部字段主要有 源端口、目的端口、长度、校验和。通过以上报文判断，是否数据包可接受，如果有错那么进行丢弃。TCP除了以上字段以外，主要判断报文是否丢弃，主要通过 ACK SYN 进行判断，当前报文是否准确收到。</li>
+<li>TCP报文的大小就比UDP大</li>
+<li>TCP 需要实现可靠交付主要通过以上报文以及重传机制等保证可靠交付，消耗资源来说，TCP是大于UDP的，并且UDP没有三次握手和四次挥手，连接时间上来说，UDP是更快一些</li>
+<li>对于运输方式来说：TCP是面向字节流，UDP是面向报文</li>
+<li>从连接对象上来说：UDP支持，一对一，一对多，多对一，多对多的情况；而TCP只能是面对一对一</li>
+<li>以上导致了他们的应用场景不同：UDP 主要适用于实时应用，对于报文丢失的容错比较大，主要用于IP电话、视频、直播等。而TCP 主要用于可靠性大的场景，如文件传输等。</li>
+</ol>
+
+  </div>
+  <div id="gitalk-container"></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
   dragToClose: true,
   Toolbar: true,
   closeButton: "top",
@@ -21,7 +418,155 @@
       );
     },
   },
-});</script><style>#noneimg img{display:none;z-index:9999;min-width:0;max-width:90%;max-height:80%;border-radius:0;position:fixed;box-shadow:0 0 0 #c3c3c300!important;left:0;top:0;right:0;bottom:0;margin:auto!important}@media screen and (max-width:600px){#noneimg img{max-width:88%}}</style><div class="post-paging"><a href="/2022/06/27/browserWork/"><div class="post-paging-last"><span>上一篇</span><p>一文看懂浏览器原理</p></div></a></div></div><div class="footer"><div class="Copyright">©2022 By Jesslyn wongkayan.</div><div class="contact"><a target="_blank" rel="noopener" href="https://github.com/Jesslynwong"><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题"></a></div></div><script src="/js/gotop.js"></script><style>@media screen and (min-width:600px){.goTop>span{display:flex;align-items:center;justify-content:center;border-radius:10px;width:40px;height:40px;cursor:pointer;opacity:.8;background:rgba(18,24,58,.06);text-align:center;transition:border .5s;border:1px solid rgba(18,24,58,.06);-moz-transition:border .5s;-webkit-transition:border .5s;-o-transition:border .5s}.goTop>span:hover{border:1px solid #6680b3}.goTop{position:fixed;right:30px;bottom:80px}.goTop>span>svg{width:20px;height:20px;opacity:.7}}@media screen and (max-width:600px){.goTop{display:none}}</style><div class="goTop" id="js-go_top"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g><path d="M13 12v8h-2v-8H4l8-8 8 8z"></path></g></svg></span></div><script>$("#js-go_top").gotoTop({offset:500,speed:300,animationShow:{transform:"translate(0,0)",transition:"transform .5s ease-in-out"},animationHide:{transform:"translate(100px,0)",transition:"transform .5s ease-in-out"}})</script><script defer>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script><script>const data = '{"clientID":"8c7e2048c78b8bc2a849","clientSecret":"011c69973020c48e4bc0f897b4f7d54f04ea84a5","repo":"jesslynwong.github.io","owner":"Jesslynwong","admin":"Jesslynwong"}'
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2022/06/27/browserWork/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>一文看懂浏览器原理</p>
+        </div>
+    </a>
+    
+
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2022 By Jesslyn wongkayan.
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/Jesslynwong">
+			<img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+<!-- Baidu Analytics -->
+<script defer>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"8c7e2048c78b8bc2a849","clientSecret":"011c69973020c48e4bc0f897b4f7d54f04ea84a5","repo":"jesslynwong.github.io","owner":"Jesslynwong","admin":"Jesslynwong"}'
         const gitalk = new Gitalk({
             ...JSON.parse( data),
             id:location.pathname,
@@ -30,4 +575,12 @@
         
         if(Boolean('true')){
             gitalk.render('gitalk-container')
-        }</script><script>console.log("\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n","color: #fadfa3; background: #030307; padding:5px 0;","background: #fadfa3; padding:5px 0;")</script><script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var t,r=0;r<c.length;r++)0<=(t=(t=c[r]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n()},e.src=i}()}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this)</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})})</script></body></html>
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var t,r=0;r<c.length;r++)0<=(t=(t=c[r]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}()}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>
+

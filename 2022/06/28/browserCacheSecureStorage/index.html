@@ -1,12 +1,385 @@
-<!DOCTYPE html><html><head><title>浏览器缓存、存储、安全及防范</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="shortcut icon" type="image/x-icon" href="/image/logo.jpg"><link rel="stylesheet" href="/css/index.css"><meta name="keywords" content="浏览器,"><meta name="description" content=""><script src="/js/jquery.min.js"></script><script src="/js/index.js"></script><script src="/js/fancybox.umd.js"></script><script src="/js/fancybox-images.js"></script><script src="/js/gitalk.min.js"></script><script src="/js/hljs.min.js"></script><script>hljs.highlightAll()</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="header"><div class="header-top" id="header-top"><div class="h-left"><a href="/"><img src="/image/loading.gif" data-original="/image/header.png" alt="Quiet"></a></div><div class="h-right"><ul><li><a href="/">HOME</a><span class="dot"></span></li><li><a href="/archives">ARCHIVE</a><span class="dot"></span></li><li><a href="/tags">TAGS</a><span class="dot"></span></li><li><a href="/about">ABOUT ME</a><span class="dot"></span></li></ul></div><div class="h-right-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)"/></svg></div></div></div><div class="sidebar"><div class="topo"><h2>Jesslyn wongkayan</h2></div><ul><li><a href="/">HOME</a></li><li><a href="/archives">ARCHIVE</a></li><li><a href="/tags">TAGS</a></li><li><a href="/about">ABOUT ME</a></li></ul><div class="my_foot"><a target="_blank" rel="noopener" href="https://github.com/Jesslynwong"><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题"></a></div></div><div class="shelter"></div><style>.shelter{background-color:#333;opacity:.5;cursor:pointer;display:none;position:fixed;left:0;top:0;right:0;bottom:0;z-index:1998}.sidebar{width:66%;height:100%;position:fixed;top:0;right:-100%;bottom:0;background:#fff;z-index:1999;text-align:center;box-shadow:-6px 0 20px rgba(98,94,94,.815)}.topo{width:100%;height:200px;background:url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;background-size:100% 100%;position:relative;display:flex;align-items:flex-end}.topo h2{color:#fff;z-index:1;position:relative;margin:0 0 10px 10px;font-size:1.2em;box-sizing:border-box}.topo:before{content:'';background-image:url(/image/pattern.png);background-repeat:repeat;height:100%;left:0;position:absolute;top:0;width:100%;z-index:1}.sidebar ul{width:100%;margin-top:50px}.sidebar ul li{height:50px;list-style:none;font-size:1.2em;text-align:right;margin-right:10px}.sidebar ul li a{display:grid;color:#5d606a;text-overflow:ellipsis;width:100%;text-decoration:none}.my_foot{width:100%;padding:10px;margin-bottom:10px;position:absolute;bottom:0}.my_foot a{text-decoration:none;margin-right:10px;display:inline-block}.my_foot a img{width:30px;height:30px}</style><script>$(function(){$(".h-right-close>svg").click(function(){$(".sidebar").animate({right:"0"},500),$(".shelter").fadeIn("slow")}),$(".shelter").click(function(e){$(".sidebar").animate({right:"-100%"},500),$(".shelter").fadeOut("slow")})})</script><div class="post"><div class="post-header-background post-header-img" style="background:url(https://api.ixiaowai.cn/gqapi/gqapi.php)"><div class="post-header-background-content"><ul class="post-header-tag"><li><a href="/tags/浏览器">浏览器</a></li></ul><h1>浏览器缓存、存储、安全及防范</h1><div class="post-header-info"><div class="post-header-info-author"><svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20"><path d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1zm0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4zm0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6zm0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9zm0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z" p-id="2902" fill="#ffffff"></path></svg> <span class="post-header-info-author-text"><a target="_blank" rel="noopener" href="https://jesslynwong.github.io/about">Jesslyn</a></span><div class="post-header-info-author-categories"></div><p>2022-06-28 22:34:36</p></div></div></div></div><div class="post-content" id="content"><div id="article" class="post-content-info"><h2 id="一张图带你看懂浏览器缓存机制"><a href="#一张图带你看懂浏览器缓存机制" class="headerlink" title="一张图带你看懂浏览器缓存机制"></a>一张图带你看懂浏览器缓存机制</h2><hr><p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221028162024.png"></p><h3 id="流程解读"><a href="#流程解读" class="headerlink" title="流程解读"></a>流程解读</h3><p>浏览器发送请求之后，会执行浏览器缓存机制，跑来判断是否有缓存。浏览器缓存机制，又分为强缓存和协商缓存。<br>浏览器发送请求后，首先会判断强缓存是否新鲜，而强缓存主要依靠的是 cache-control 或者 expire 来进行判断是否命中缓存。 如果强缓存新鲜那么浏览器使用缓存。如果强缓存不新鲜，走的是协商缓存。 浏览器这个时候会在请求头上带上 If-None-Match 或者是 If-Modified-SInce，分别返回的是 ETag 或者 Last-Modified，浏览器再去通过 ETag 或者 Last-Modified 去判断是否命中协商缓存，如果命中，那么返回304，获取缓存，否则发送请求200之后会返回资源。</p><h3 id="cache-control-和-expire"><a href="#cache-control-和-expire" class="headerlink" title="cache-control 和 expire"></a>cache-control 和 expire</h3><p>总的来说 cache-control 的优先级要比 expire 高，因为 cache-control 跟准确些</p><h4 id="cache-control"><a href="#cache-control" class="headerlink" title="cache-control"></a>cache-control</h4><p>no-store: 客户端不可缓存<br>no-cache: 强制走协商缓存<br>public || private: 是否能被中间人缓存（cdn、中间人代理），默认为 private<br>max-age: 保存缓存信息的最大时间（秒）</p><h4 id="expire"><a href="#expire" class="headerlink" title="expire"></a>expire</h4><p>存储的是过期日期的本地时间，一旦本地时间被改了，该时间就失效了</p><h3 id="ETag-和-Last-Modified"><a href="#ETag-和-Last-Modified" class="headerlink" title="ETag 和 Last-Modified"></a>ETag 和 Last-Modified</h3><p>ETag： 主要存的是资源的哈希值，可以保证每份资源是唯一性。<br>Last-Modified：上一次修改资源的 GMT 时间，粒度为秒级。<br>ETag 比 Last-Modified 优先级高的原因如下：</p><ol><li>ETag 主要依赖的是对资源本身进行哈希，而依靠修改时间。如果说资源的内容没有发生改变，那么这个 ETag 就不会发生改变。当发送请求的时候 ETag 会查看哈希值是否进行改变，也就是说，如果时间变化了，但是实际资源的内容并没有发生改变，那么 ETag也不会发生改变，这样的话就不用重新去 get 请求。</li><li>ETag 的粒度是秒级以下，Last-Modified 粒度为秒级，所以 如果1秒钟之内修改了多次文件的话 Last-Modified 并不会检测出来，因此在这方面来说 ETag 会比 Last-Modified 更加准确。</li><li>一些服务器不能精确得到文件的最后修改时间。</li></ol><h2 id="浏览器安全及防范"><a href="#浏览器安全及防范" class="headerlink" title="浏览器安全及防范"></a>浏览器安全及防范</h2><hr><h3 id="XSS-攻击"><a href="#XSS-攻击" class="headerlink" title="XSS 攻击"></a>XSS 攻击</h3><p>def: 跨站脚本攻击，攻击者通过向用户网站嵌入脚本，执行恶意脚本，从而达到攻击目的</p><h4 id="攻击形式具有以下三种"><a href="#攻击形式具有以下三种" class="headerlink" title="攻击形式具有以下三种:"></a>攻击形式具有以下三种:</h4><ol><li>反射XSS（reflected xss）: 注入恶意链接，诱导攻击者点击</li><li>存储型 XSS（stored xss）：攻击代码存储到服务器中，每当访问服务器的时候，会触发这类代码，可以盗取不同用户 cookie</li><li>DOM 型 XSS：通过更改 DOM 树实现<br>攻击方法则不外乎是通过执行 script 脚本或者把恶意脚本通过可输入组件或者从 URL 带上 script 实现脚本注入</li></ol><pre><code>// 输入框
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>浏览器缓存、存储、安全及防范</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/logo.jpg">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="浏览器,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/loading.gif" data-original="/image/header.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT ME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>Jesslyn wongkayan</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT ME</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Jesslynwong">
+            <img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/浏览器">浏览器</a></li>
+            
+            
+        </ul>
+        
+        <h1>浏览器缓存、存储、安全及防范</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a target="_blank" rel="noopener" href="https://jesslynwong.github.io/about">Jesslyn</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                </div>
+                <p>2022-06-28 22:34:36</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h2 id="一张图带你看懂浏览器缓存机制"><a href="#一张图带你看懂浏览器缓存机制" class="headerlink" title="一张图带你看懂浏览器缓存机制"></a>一张图带你看懂浏览器缓存机制</h2><hr>
+<p><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221028162024.png"></p>
+<h3 id="流程解读"><a href="#流程解读" class="headerlink" title="流程解读"></a>流程解读</h3><p>浏览器发送请求之后，会执行浏览器缓存机制，跑来判断是否有缓存。浏览器缓存机制，又分为强缓存和协商缓存。<br>浏览器发送请求后，首先会判断强缓存是否新鲜，而强缓存主要依靠的是 cache-control 或者 expire 来进行判断是否命中缓存。 如果强缓存新鲜那么浏览器使用缓存。如果强缓存不新鲜，走的是协商缓存。 浏览器这个时候会在请求头上带上 If-None-Match 或者是 If-Modified-SInce，分别返回的是 ETag 或者 Last-Modified，浏览器再去通过 ETag 或者 Last-Modified 去判断是否命中协商缓存，如果命中，那么返回304，获取缓存，否则发送请求200之后会返回资源。</p>
+<h3 id="cache-control-和-expire"><a href="#cache-control-和-expire" class="headerlink" title="cache-control 和 expire"></a>cache-control 和 expire</h3><p>总的来说 cache-control 的优先级要比 expire 高，因为 cache-control 跟准确些</p>
+<h4 id="cache-control"><a href="#cache-control" class="headerlink" title="cache-control"></a>cache-control</h4><p>no-store: 客户端不可缓存<br>no-cache: 强制走协商缓存<br>public || private: 是否能被中间人缓存（cdn、中间人代理），默认为 private<br>max-age: 保存缓存信息的最大时间（秒）</p>
+<h4 id="expire"><a href="#expire" class="headerlink" title="expire"></a>expire</h4><p>存储的是过期日期的本地时间，一旦本地时间被改了，该时间就失效了</p>
+<h3 id="ETag-和-Last-Modified"><a href="#ETag-和-Last-Modified" class="headerlink" title="ETag 和 Last-Modified"></a>ETag 和 Last-Modified</h3><p>ETag： 主要存的是资源的哈希值，可以保证每份资源是唯一性。<br>Last-Modified：上一次修改资源的 GMT 时间，粒度为秒级。<br>ETag 比 Last-Modified 优先级高的原因如下：</p>
+<ol>
+<li>ETag 主要依赖的是对资源本身进行哈希，而依靠修改时间。如果说资源的内容没有发生改变，那么这个 ETag 就不会发生改变。当发送请求的时候 ETag 会查看哈希值是否进行改变，也就是说，如果时间变化了，但是实际资源的内容并没有发生改变，那么 ETag也不会发生改变，这样的话就不用重新去 get 请求。</li>
+<li>ETag 的粒度是秒级以下，Last-Modified 粒度为秒级，所以 如果1秒钟之内修改了多次文件的话 Last-Modified 并不会检测出来，因此在这方面来说 ETag 会比 Last-Modified 更加准确。</li>
+<li>一些服务器不能精确得到文件的最后修改时间。</li>
+</ol>
+<h2 id="浏览器安全及防范"><a href="#浏览器安全及防范" class="headerlink" title="浏览器安全及防范"></a>浏览器安全及防范</h2><hr>
+<h3 id="XSS-攻击"><a href="#XSS-攻击" class="headerlink" title="XSS 攻击"></a>XSS 攻击</h3><p>def: 跨站脚本攻击，攻击者通过向用户网站嵌入脚本，执行恶意脚本，从而达到攻击目的</p>
+<h4 id="攻击形式具有以下三种"><a href="#攻击形式具有以下三种" class="headerlink" title="攻击形式具有以下三种:"></a>攻击形式具有以下三种:</h4><ol>
+<li>反射XSS（reflected xss）: 注入恶意链接，诱导攻击者点击</li>
+<li>存储型 XSS（stored xss）：攻击代码存储到服务器中，每当访问服务器的时候，会触发这类代码，可以盗取不同用户 cookie</li>
+<li>DOM 型 XSS：通过更改 DOM 树实现<br>攻击方法则不外乎是通过执行 script 脚本或者把恶意脚本通过可输入组件或者从 URL 带上 script 实现脚本注入</li>
+</ol>
+<pre><code>// 输入框
 我是个恶意脚本&lt;script&gt; window.alert(&#39;我是病毒&#39;)&lt;/script&gt;
 
 // 更改 DOM
 加入image &lt;img scr=&quot;http:xxxx&quot; /&gt;
-</code></pre><h4 id="防御措施"><a href="#防御措施" class="headerlink" title="防御措施"></a>防御措施</h4><ol><li>把提交的字符 &lt; 、&gt;、 % 、””、’’、+、&#x2F; 进行转义，可以把 script 标签这些给转换掉</li><li>cookie 设置 http-only（不能通过 JS 来访问）</li><li>严格的 CSP (content-secure-policy) 进行限制，在 meta 处进行设置，参考<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP</a></li><li>对于输入框，设置合理长度、字符类型等</li></ol><h3 id="CSRF-攻击"><a href="#CSRF-攻击" class="headerlink" title="CSRF 攻击"></a>CSRF 攻击</h3><p>def: 跨站伪造请求，用户不知情下，利用用户权限（cookie），伪造用户发请求<br>实例：小明在银行网站A 转账，黑客从 A 获取到小明发送的 cookie。此时黑客可以拿着小明的 cookie 向 A 的后台发送请求，伪造小明的请求给黑客账户转账</p><h4 id="防御措施-1"><a href="#防御措施-1" class="headerlink" title="防御措施"></a>防御措施</h4><p>既然是通过伪造用户请求来进行攻击，那么只需要确认用户本人操作即可</p><ol><li>短信验证码</li><li>token 验证</li><li>同源检测：Origin 和 Referer 验证。浏览器限制对 referer 改动，所以发送请求的网站都会在 referer 看到，所以服务器可以对其判断是否响应该请求</li><li>Same-site 设置</li></ol><h3 id="SQL-注入"><a href="#SQL-注入" class="headerlink" title="SQL 注入"></a>SQL 注入</h3><p>Def: 主要是用户通过发送请求 SQL 参数恶意注入，通过在 server 端拼接 SQL 对数据库进行增删查改。</p><h4 id="防御措施-2"><a href="#防御措施-2" class="headerlink" title="防御措施"></a>防御措施</h4><ol><li>分级管理，控制用户权限，对系统管理员才有对数据库增删查改的权利</li><li>正则表达式拦截请求，将 SQL 语句进行过滤</li><li>隐藏数据库错误信息，可以用户通过返回错误信息进行数据库字段信息判断</li></ol><h3 id="DDOS"><a href="#DDOS" class="headerlink" title="DDOS"></a>DDOS</h3><p>Def: 短时间内，僵尸设备大量向服务器发送请求，使得服务器不能响应全部请求，导致请求堆积，消耗大量带宽，出现雪崩效应<br>这里的原理主要是通过 tcp 对收到 server 响应不予以回应，导致 server 不断发送报文进行确认，这个时候因为没有完成连接，所以不能够释放连接，同时又到达了最大连接数，这个时候会出现崩溃。</p><h4 id="防御措施-3"><a href="#防御措施-3" class="headerlink" title="防御措施"></a>防御措施</h4><p>这个时候不外乎是过滤和抗量</p><ol><li>流量管制：负载均衡、API 网关、CDN</li><li>快速自动扩容</li><li>非核心服务降级<br>有一种情况是静态资源被劫持了，比如 CDN 静态资源被篡改，可以利用 SRI 来防范</li></ol><h3 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h3><p>http 是明文传输，也就是说</p><ol><li>中间人可以通过抓取 http 报文，查看传输内容</li><li>信息被篡改不可知</li><li>对方的身份无法验证</li></ol><h4 id="防御措施-4"><a href="#防御措施-4" class="headerlink" title="防御措施"></a>防御措施</h4><ol><li>利用 https 对报文进行加密（TLS + HTTP）<blockquote><p>Https 有以下特性：<br>可靠性：加密<br>不可抵赖性：数字签名<br>当然假若算法不够健壮时候，数字签名可能被暴力破解。所以说成也证书，败也证书。</p></blockquote></li></ol><h2 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h2><hr><p>在没有浏览器安全保障中，当打开一个网站后，不小心再打开恶意网站，那么会出现恶意网站，可能出现网站中的cookie被盗取、被插入JS脚本等情况，也就是CSRF 和XSS 攻击。这个时候就需要浏览器的安全机制，同源策略来进行限制网站的行为。</p><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>浏览器默认两个相同的源之间是可以相互访问资源和操作 DOM 的。相同源主要包括：协议、主机、端口号一致。<br>主要有以下三个方面的限制行为：</p><ol><li>DOM 层面：读写操作限制，第二个页面能通过 window.opener 获取前一个页面的dom</li><li>数据层面：Cookie、IndexDB、LocalStorage 等数据限制。</li><li>网络层面：限制通过XHR等方式发送到不同源的站点</li></ol><h2 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h2><hr><p>上面说了同源策略保证了浏览器的安全性，那么不同源间的数据就无法进行共享了。特别是前后端分离的项目时，也因为浏览器同源策略的限制，导致我们在不同源之间通信，出现了浏览器接收不到服务端返回数据的问题。安全性是做到了，但又失了便利性。实在需要不同源进行跨域共享也是可以的，有以下方法：</p><h3 id="跨域资源共享-CORS"><a href="#跨域资源共享-CORS" class="headerlink" title="跨域资源共享 CORS"></a>跨域资源共享 CORS</h3><p>使用 XMLHttpRequest 和 Fetch 都是无法直接进行跨域请求，所以出现了cors。<br>如果是简单请求（GET、POST、HEAD），只需要服务端设置 Access-Control-Allow-Origin （告诉浏览器允许向服务端请求资源的域名），前端无需设置。如果需要带上cookie请求，双方都需要设置。</p><pre><code>后端修改请求头：
+</code></pre>
+<h4 id="防御措施"><a href="#防御措施" class="headerlink" title="防御措施"></a>防御措施</h4><ol>
+<li>把提交的字符 &lt; 、&gt;、 % 、””、’’、+、&#x2F; 进行转义，可以把 script 标签这些给转换掉</li>
+<li>cookie 设置 http-only（不能通过 JS 来访问）</li>
+<li>严格的 CSP (content-secure-policy) 进行限制，在 meta 处进行设置，参考<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP</a></li>
+<li>对于输入框，设置合理长度、字符类型等</li>
+</ol>
+<h3 id="CSRF-攻击"><a href="#CSRF-攻击" class="headerlink" title="CSRF 攻击"></a>CSRF 攻击</h3><p>def: 跨站伪造请求，用户不知情下，利用用户权限（cookie），伪造用户发请求<br>实例：小明在银行网站A 转账，黑客从 A 获取到小明发送的 cookie。此时黑客可以拿着小明的 cookie 向 A 的后台发送请求，伪造小明的请求给黑客账户转账</p>
+<h4 id="防御措施-1"><a href="#防御措施-1" class="headerlink" title="防御措施"></a>防御措施</h4><p>既然是通过伪造用户请求来进行攻击，那么只需要确认用户本人操作即可</p>
+<ol>
+<li>短信验证码</li>
+<li>token 验证 </li>
+<li>同源检测：Origin 和 Referer 验证。浏览器限制对 referer 改动，所以发送请求的网站都会在 referer 看到，所以服务器可以对其判断是否响应该请求</li>
+<li>Same-site 设置</li>
+</ol>
+<h3 id="SQL-注入"><a href="#SQL-注入" class="headerlink" title="SQL 注入"></a>SQL 注入</h3><p>Def: 主要是用户通过发送请求 SQL 参数恶意注入，通过在 server 端拼接 SQL 对数据库进行增删查改。</p>
+<h4 id="防御措施-2"><a href="#防御措施-2" class="headerlink" title="防御措施"></a>防御措施</h4><ol>
+<li>分级管理，控制用户权限，对系统管理员才有对数据库增删查改的权利</li>
+<li>正则表达式拦截请求，将 SQL 语句进行过滤</li>
+<li>隐藏数据库错误信息，可以用户通过返回错误信息进行数据库字段信息判断</li>
+</ol>
+<h3 id="DDOS"><a href="#DDOS" class="headerlink" title="DDOS"></a>DDOS</h3><p>Def: 短时间内，僵尸设备大量向服务器发送请求，使得服务器不能响应全部请求，导致请求堆积，消耗大量带宽，出现雪崩效应<br>这里的原理主要是通过 tcp 对收到 server 响应不予以回应，导致 server 不断发送报文进行确认，这个时候因为没有完成连接，所以不能够释放连接，同时又到达了最大连接数，这个时候会出现崩溃。</p>
+<h4 id="防御措施-3"><a href="#防御措施-3" class="headerlink" title="防御措施"></a>防御措施</h4><p>这个时候不外乎是过滤和抗量</p>
+<ol>
+<li>流量管制：负载均衡、API 网关、CDN</li>
+<li>快速自动扩容</li>
+<li>非核心服务降级<br>有一种情况是静态资源被劫持了，比如 CDN 静态资源被篡改，可以利用 SRI 来防范</li>
+</ol>
+<h3 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h3><p>http 是明文传输，也就是说</p>
+<ol>
+<li>中间人可以通过抓取 http 报文，查看传输内容</li>
+<li>信息被篡改不可知</li>
+<li>对方的身份无法验证</li>
+</ol>
+<h4 id="防御措施-4"><a href="#防御措施-4" class="headerlink" title="防御措施"></a>防御措施</h4><ol>
+<li>利用 https 对报文进行加密（TLS + HTTP）<blockquote>
+<p>Https 有以下特性：<br>可靠性：加密<br>不可抵赖性：数字签名<br>当然假若算法不够健壮时候，数字签名可能被暴力破解。所以说成也证书，败也证书。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h2><hr>
+<p>在没有浏览器安全保障中，当打开一个网站后，不小心再打开恶意网站，那么会出现恶意网站，可能出现网站中的cookie被盗取、被插入JS脚本等情况，也就是CSRF 和XSS 攻击。这个时候就需要浏览器的安全机制，同源策略来进行限制网站的行为。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>浏览器默认两个相同的源之间是可以相互访问资源和操作 DOM 的。相同源主要包括：协议、主机、端口号一致。<br>主要有以下三个方面的限制行为：</p>
+<ol>
+<li>DOM 层面：读写操作限制，第二个页面能通过 window.opener 获取前一个页面的dom</li>
+<li>数据层面：Cookie、IndexDB、LocalStorage 等数据限制。</li>
+<li>网络层面：限制通过XHR等方式发送到不同源的站点</li>
+</ol>
+<h2 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h2><hr>
+<p>上面说了同源策略保证了浏览器的安全性，那么不同源间的数据就无法进行共享了。特别是前后端分离的项目时，也因为浏览器同源策略的限制，导致我们在不同源之间通信，出现了浏览器接收不到服务端返回数据的问题。安全性是做到了，但又失了便利性。实在需要不同源进行跨域共享也是可以的，有以下方法：</p>
+<h3 id="跨域资源共享-CORS"><a href="#跨域资源共享-CORS" class="headerlink" title="跨域资源共享 CORS"></a>跨域资源共享 CORS</h3><p>使用 XMLHttpRequest 和 Fetch 都是无法直接进行跨域请求，所以出现了cors。<br>如果是简单请求（GET、POST、HEAD），只需要服务端设置 Access-Control-Allow-Origin （告诉浏览器允许向服务端请求资源的域名），前端无需设置。如果需要带上cookie请求，双方都需要设置。</p>
+<pre><code>后端修改请求头：
 header(‘Access-Control-Allow-Origin:*’);允许访问的网址
 header(‘Access-Control-Allow-Method:POST,GET’);允许访问的方式
-</code></pre><p>非简单请求就需要先进行一次预检请求发送OPTION请求，服务器收到预检请求后，检查这些特殊的method和 header 自己能否接受，再发送真实请求。主要是因为非简单请求有可能是需要修改服务端资源。</p><blockquote><p>⚠️ 需要带 cookie 或者 http 认证信息发送身份凭证的。一般浏览器不会发送这些信息凭证。如果需要发送，客户端需要加上<code>withCredentials</code>为true。服务端需要携带<code>Access-Control-Allow-Credentials``: true</code>（告知浏览器是否可以将对响应给前端JS代码），否则浏览器不会把响应内容给客户端。并且服务器响应的 method, header, origin 都不能为通配符，否则请求失败。</p></blockquote><h3 id="Nginx-反向代理"><a href="#Nginx-反向代理" class="headerlink" title="Nginx 反向代理"></a>Nginx 反向代理</h3><p>原理：同源策略是浏览器的，但是不是http协议的，所以服务器调用http借口，只使用http协议，不会执行JS脚本，不需要同源策略<br>通过nginx配置一个代理服务器，通过代理服务器作为跳板，访问服务器。对于客户端而言不需要做任何配置，对于服务端而言，只是把消息发送到另一台服务器。隐藏了真实服务器的IP地址。<br><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221031203654.png"><br>（图出处：知乎@小晶）</p><h3 id="跨文档消息机制-postMessage"><a href="#跨文档消息机制-postMessage" class="headerlink" title="跨文档消息机制 postMessage"></a>跨文档消息机制 postMessage</h3><p><strong>优点：</strong></p><ul><li>不需要后端介入就可以做到跨域，一个函数外加俩个参数(请求url，发送数据)就可以搞定；</li><li>移动端兼容性好；<br><strong>缺点：</strong></li><li>无法做到一对一的传递方式：监听中需要做很多消息的识别，由于postMessage发出的消息对于同一个页面的不同功能相当于一个广播的过程，该页面的所有onmessage都会收到，所以需要做消息的判断；</li><li>同时三方可以通过截获，注入html或者脚本的形式监听到消息，从而能够做到篡改的效果，所以在postMessage和onMessage中一定要做好这方面的限制；<br>用法：</li></ul><pre><code class="js">// 发送请求
+</code></pre>
+<p>非简单请求就需要先进行一次预检请求发送OPTION请求，服务器收到预检请求后，检查这些特殊的method和 header 自己能否接受，再发送真实请求。主要是因为非简单请求有可能是需要修改服务端资源。</p>
+<blockquote>
+<p>⚠️ 需要带 cookie 或者 http 认证信息发送身份凭证的。一般浏览器不会发送这些信息凭证。如果需要发送，客户端需要加上<code>withCredentials</code>为true。服务端需要携带<code>Access-Control-Allow-Credentials``: true</code>（告知浏览器是否可以将对响应给前端JS代码），否则浏览器不会把响应内容给客户端。并且服务器响应的 method, header, origin 都不能为通配符，否则请求失败。</p>
+</blockquote>
+<h3 id="Nginx-反向代理"><a href="#Nginx-反向代理" class="headerlink" title="Nginx 反向代理"></a>Nginx 反向代理</h3><p>原理：同源策略是浏览器的，但是不是http协议的，所以服务器调用http借口，只使用http协议，不会执行JS脚本，不需要同源策略<br>通过nginx配置一个代理服务器，通过代理服务器作为跳板，访问服务器。对于客户端而言不需要做任何配置，对于服务端而言，只是把消息发送到另一台服务器。隐藏了真实服务器的IP地址。<br><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221031203654.png"><br>（图出处：知乎@小晶）</p>
+<h3 id="跨文档消息机制-postMessage"><a href="#跨文档消息机制-postMessage" class="headerlink" title="跨文档消息机制 postMessage"></a>跨文档消息机制 postMessage</h3><p><strong>优点：</strong> </p>
+<ul>
+<li>不需要后端介入就可以做到跨域，一个函数外加俩个参数(请求url，发送数据)就可以搞定；</li>
+<li>移动端兼容性好；<br><strong>缺点：</strong> </li>
+<li>无法做到一对一的传递方式：监听中需要做很多消息的识别，由于postMessage发出的消息对于同一个页面的不同功能相当于一个广播的过程，该页面的所有onmessage都会收到，所以需要做消息的判断；</li>
+<li>同时三方可以通过截获，注入html或者脚本的形式监听到消息，从而能够做到篡改的效果，所以在postMessage和onMessage中一定要做好这方面的限制；<br>用法：</li>
+</ul>
+<pre><code class="js">// 发送请求
 iframe.contentWindow.postMessage(JSON.stringify(data), &#39;http://www.demo2.com&#39;);
 // 处理返回的数据
 window.addEventListener(&#39;message&#39;, function(e) &#123;
@@ -19,7 +392,68 @@ window.addEventListener(&#39;message&#39;, function(e) &#123;
 &#125;
 // 返回数据
 window.postMessage(JSON.stringify(data), &#39;http://www.demo1.com&#39;);
-</code></pre><h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><p>浏览器与服务器全双工通信，同时允许跨域通讯，是服务端推送的一种很好的实现。</p><h2 id="cookie-和-session"><a href="#cookie-和-session" class="headerlink" title="cookie 和 session"></a>cookie 和 session</h2><hr><p>http 是无状态的，因此无法确定用户身份。Cookie 和 session 服务于会话跟踪，能够通过这两个来确认身份。</p><h3 id="cookie-原理"><a href="#cookie-原理" class="headerlink" title="cookie 原理"></a>cookie 原理</h3><p>cookie 存储用户信息在客户端，每次发送请求会带上cookie， 服务端则通过 cookie 信息来判断，是否用户本人操作</p><h3 id="session-原理"><a href="#session-原理" class="headerlink" title="session 原理"></a>session 原理</h3><p>session 是通过 session 来判断是否当前用户操作，每次发送请求的时候，可以在请求URL进行拼接，或者是传送信息的时候，加个用来放session的字段传送，服务端通过客户端传送的 session 与服务端保存的 session 来判断是否用户本人操作。</p><h3 id="会话跟踪-cookie-x2F-session-最佳实践"><a href="#会话跟踪-cookie-x2F-session-最佳实践" class="headerlink" title="会话跟踪 cookie&#x2F;session 最佳实践"></a>会话跟踪 cookie&#x2F;session 最佳实践</h3><p>单纯用cookie，用户信息会保存在客户端。如果出现中间人攻击，能够获取用户信息，或者用户将自己的cookie信息修改，能够伪造成他人访问。<br>单纯用session的话需要跟server商量session放在哪个地方为妥<br>涉及两个的最佳实践是：session和cookie相结合，session ID放到cookie里面。鉴权信息为session ID，传送载体是cookie。浏览器自动把同源的cookie放到请求头里面。同时保证用户信息信息安全性</p><h3 id="cookie-和-session-的区别有："><a href="#cookie-和-session-的区别有：" class="headerlink" title="cookie 和 session 的区别有："></a>cookie 和 session 的区别有：</h3><ol><li>保存位置：cookie: 客户端。session: 服务端。</li><li>安全：cookie：容易出现 csrf 攻击并且在客户端能被修改（http-only能防范）；session：服务端无法直接修改伪造</li><li>作用域：cookie：同源策略下发送，session：在服务端可以跨域共享（这里涉及分布式 session）</li><li>关闭浏览器后保持时间：cookie：默认关闭即没有；session：默认保持30分钟</li><li>类型： cookie: string; session: object</li><li>大小：cookie：一般不超过 4k; session: 可以灵活控制</li></ol><h2 id="cookie-属性"><a href="#cookie-属性" class="headerlink" title="cookie 属性"></a>cookie 属性</h2><hr><p>每个上网的人都离不开cookie，cookie用来跟踪会话提高用户体验，但是在安全性方面需要注意，设置cookie自身的属性能够避免一些麻烦，接下来介绍一下部分重要的cookie属性。<br><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221031153835.png"></p><h3 id="信息相关："><a href="#信息相关：" class="headerlink" title="信息相关："></a>信息相关：</h3><ul><li>Name-Value：cookie的名字和其属性，呈 k-v结构</li><li>Domain： cookie作用域。如果后端未指定 Domain，那么默认情况下，域的值就与 document.domain 或者 location.hostname。如果服务端设置的 cookie 不包含在当前的 document.domain 中，那么会被浏览器拒绝。比如a.test.com 可以设置为 test.com，但不能设置为 Baidu.com 或者 b.test.com。<blockquote><p>⚠️：该域不要与同源策略搞混，cookie只区分域，不区分端口和协议。只要域相同，cookie可以共享</p></blockquote></li><li>Expire&#x2F;Max-age：cookie 有效期。默认会话期间有效，也就是当浏览器关闭的时候就会被移除。但是目前浏览器很多支持会话恢复的功能，所以在一定期限内重新打开浏览器也会被恢复。expire 一般是具体的GMT过期时间，max-age 是设置多少秒过期。一般如果同时存在，那么 max-age 比 expire 优先级高。</li></ul><h3 id="安全相关："><a href="#安全相关：" class="headerlink" title="安全相关："></a>安全相关：</h3><ul><li>Http-only： 服务端可以设置，cookie不能被 JS 获取或修改。但是实在要改，在浏览器的application中也能手动改。</li><li>Secure：只有当使用 HTTPS 协议的时候才会被发送，如果使用 http ，客户端会收不到</li><li>Same-site：限制第三方cookie，是防止CSRF攻击中的其中一种，限制发送cookie至第三方网站。其属性有 strict、lax、none。<blockquote><p>Strict：完全禁止第三方 Cookie，跨站点时，任何情况下都不会发送 Cookie。<br>Lax：默认值。除了下面三种情况外，不发送第三方 Cookie</p><ul><li>链接：<code>&lt;a href=&quot;...&quot;&gt;&lt;/a&gt;</code></li><li>预加载请求：<code>&lt;link rel=&quot;prerender&quot; href=&quot;...&quot;/&gt;</code></li><li>GET 表单：<code>&lt;form method=&quot;GET&quot; action=&quot;...&quot;&gt;</code></li></ul><p>None : 任何情况都发送，一定要把Secure属性带上。禁止明文传输</p></blockquote></li></ul><h2 id="浏览器存储"><a href="#浏览器存储" class="headerlink" title="浏览器存储"></a>浏览器存储</h2><hr><p>storage：其出现的原因主要有人们希望有一种在cookie之外存储回话数据的途径以及望有一种存储大量可以跨会话存在的数据的机制。<br>localStorage:</p><ol><li>有API易于操作</li><li>更安全，同源才能共享，onStorage能实现同源窗口通信</li><li>存储数据量更大，存储大约5M左右</li><li>保存在硬盘里，存储永久</li></ol><p>sessionStorage:</p><ol><li>保存在内存中，与local Storage不同，没有过期时间设置，浏览器关掉则会移除</li><li>存储当前会话页数据</li><li>即使不同源，从一个session派生出来的页面同样能访问之前设置的数据</li></ol><p>indexDB：<br>出现主要是因为storage存储量有限，需要大量结构化的数据存储时就不符合需求。<br>提供索引进行高性能查找。一般用于保存大量用户数据和有搜索需要场景，网络断开时能够做离线操作。</p></div><div id="gitalk-container"></div></div><script>Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+</code></pre>
+<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><p>浏览器与服务器全双工通信，同时允许跨域通讯，是服务端推送的一种很好的实现。</p>
+<h2 id="cookie-和-session"><a href="#cookie-和-session" class="headerlink" title="cookie 和 session"></a>cookie 和 session</h2><hr>
+<p>http 是无状态的，因此无法确定用户身份。Cookie 和 session 服务于会话跟踪，能够通过这两个来确认身份。</p>
+<h3 id="cookie-原理"><a href="#cookie-原理" class="headerlink" title="cookie 原理"></a>cookie 原理</h3><p>cookie 存储用户信息在客户端，每次发送请求会带上cookie， 服务端则通过 cookie 信息来判断，是否用户本人操作</p>
+<h3 id="session-原理"><a href="#session-原理" class="headerlink" title="session 原理"></a>session 原理</h3><p>session 是通过 session 来判断是否当前用户操作，每次发送请求的时候，可以在请求URL进行拼接，或者是传送信息的时候，加个用来放session的字段传送，服务端通过客户端传送的 session 与服务端保存的 session 来判断是否用户本人操作。</p>
+<h3 id="会话跟踪-cookie-x2F-session-最佳实践"><a href="#会话跟踪-cookie-x2F-session-最佳实践" class="headerlink" title="会话跟踪 cookie&#x2F;session 最佳实践"></a>会话跟踪 cookie&#x2F;session 最佳实践</h3><p>单纯用cookie，用户信息会保存在客户端。如果出现中间人攻击，能够获取用户信息，或者用户将自己的cookie信息修改，能够伪造成他人访问。<br>单纯用session的话需要跟server商量session放在哪个地方为妥<br>涉及两个的最佳实践是：session和cookie相结合，session ID放到cookie里面。鉴权信息为session ID，传送载体是cookie。浏览器自动把同源的cookie放到请求头里面。同时保证用户信息信息安全性</p>
+<h3 id="cookie-和-session-的区别有："><a href="#cookie-和-session-的区别有：" class="headerlink" title="cookie 和 session 的区别有："></a>cookie 和 session 的区别有：</h3><ol>
+<li>保存位置：cookie: 客户端。session: 服务端。</li>
+<li>安全：cookie：容易出现 csrf 攻击并且在客户端能被修改（http-only能防范）；session：服务端无法直接修改伪造</li>
+<li>作用域：cookie：同源策略下发送，session：在服务端可以跨域共享（这里涉及分布式 session）</li>
+<li>关闭浏览器后保持时间：cookie：默认关闭即没有；session：默认保持30分钟</li>
+<li>类型： cookie: string; session: object </li>
+<li>大小：cookie：一般不超过 4k; session: 可以灵活控制</li>
+</ol>
+<h2 id="cookie-属性"><a href="#cookie-属性" class="headerlink" title="cookie 属性"></a>cookie 属性</h2><hr>
+<p>每个上网的人都离不开cookie，cookie用来跟踪会话提高用户体验，但是在安全性方面需要注意，设置cookie自身的属性能够避免一些麻烦，接下来介绍一下部分重要的cookie属性。<br><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Jesslynwong/Pics@main/20221031153835.png"></p>
+<h3 id="信息相关："><a href="#信息相关：" class="headerlink" title="信息相关："></a>信息相关：</h3><ul>
+<li>Name-Value：cookie的名字和其属性，呈 k-v结构</li>
+<li>Domain： cookie作用域。如果后端未指定 Domain，那么默认情况下，域的值就与 document.domain 或者 location.hostname。如果服务端设置的 cookie 不包含在当前的 document.domain 中，那么会被浏览器拒绝。比如a.test.com 可以设置为 test.com，但不能设置为 Baidu.com 或者 b.test.com。<blockquote>
+<p>⚠️：该域不要与同源策略搞混，cookie只区分域，不区分端口和协议。只要域相同，cookie可以共享</p>
+</blockquote>
+</li>
+<li>Expire&#x2F;Max-age：cookie 有效期。默认会话期间有效，也就是当浏览器关闭的时候就会被移除。但是目前浏览器很多支持会话恢复的功能，所以在一定期限内重新打开浏览器也会被恢复。expire 一般是具体的GMT过期时间，max-age 是设置多少秒过期。一般如果同时存在，那么 max-age 比 expire 优先级高。</li>
+</ul>
+<h3 id="安全相关："><a href="#安全相关：" class="headerlink" title="安全相关："></a>安全相关：</h3><ul>
+<li>Http-only： 服务端可以设置，cookie不能被 JS 获取或修改。但是实在要改，在浏览器的application中也能手动改。</li>
+<li>Secure：只有当使用 HTTPS 协议的时候才会被发送，如果使用 http ，客户端会收不到</li>
+<li>Same-site：限制第三方cookie，是防止CSRF攻击中的其中一种，限制发送cookie至第三方网站。其属性有 strict、lax、none。<blockquote>
+<p>Strict：完全禁止第三方 Cookie，跨站点时，任何情况下都不会发送 Cookie。<br>Lax：默认值。除了下面三种情况外，不发送第三方 Cookie</p>
+<ul>
+<li>链接：<code>&lt;a href=&quot;...&quot;&gt;&lt;/a&gt;</code></li>
+<li>预加载请求：<code>&lt;link rel=&quot;prerender&quot; href=&quot;...&quot;/&gt;</code></li>
+<li>GET 表单：<code>&lt;form method=&quot;GET&quot; action=&quot;...&quot;&gt;</code></li>
+</ul>
+<p>None : 任何情况都发送，一定要把Secure属性带上。禁止明文传输</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="浏览器存储"><a href="#浏览器存储" class="headerlink" title="浏览器存储"></a>浏览器存储</h2><hr>
+<p>storage：其出现的原因主要有人们希望有一种在cookie之外存储回话数据的途径以及望有一种存储大量可以跨会话存在的数据的机制。<br>localStorage:</p>
+<ol>
+<li>有API易于操作</li>
+<li>更安全，同源才能共享，onStorage能实现同源窗口通信</li>
+<li>存储数据量更大，存储大约5M左右</li>
+<li>保存在硬盘里，存储永久</li>
+</ol>
+<p>sessionStorage:</p>
+<ol>
+<li>保存在内存中，与local Storage不同，没有过期时间设置，浏览器关掉则会移除</li>
+<li>存储当前会话页数据</li>
+<li>即使不同源，从一个session派生出来的页面同样能访问之前设置的数据</li>
+</ol>
+<p>indexDB：<br>出现主要是因为storage存储量有限，需要大量结构化的数据存储时就不符合需求。<br>提供索引进行高性能查找。一般用于保存大量用户数据和有搜索需要场景，网络断开时能够做离线操作。</p>
+
+  </div>
+  <div id="gitalk-container"></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
   dragToClose: true,
   Toolbar: true,
   closeButton: "top",
@@ -42,7 +476,162 @@ window.postMessage(JSON.stringify(data), &#39;http://www.demo1.com&#39;);
       );
     },
   },
-});</script><style>#noneimg img{display:none;z-index:9999;min-width:0;max-width:90%;max-height:80%;border-radius:0;position:fixed;box-shadow:0 0 0 #c3c3c300!important;left:0;top:0;right:0;bottom:0;margin:auto!important}@media screen and (max-width:600px){#noneimg img{max-width:88%}}</style><div class="post-paging"><a href="/2022/08/20/docker/"><div class="post-paging-last"><span>上一篇</span><p>Docker</p></div></a><a href="/2022/06/27/browserWork/"><div class="post-paging-next"><span>下一篇</span><p>一文看懂浏览器原理</p></div></a></div></div><div class="footer"><div class="Copyright">©2022 By Jesslyn wongkayan.</div><div class="contact"><a target="_blank" rel="noopener" href="https://github.com/Jesslynwong"><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题"></a></div></div><script src="/js/gotop.js"></script><style>@media screen and (min-width:600px){.goTop>span{display:flex;align-items:center;justify-content:center;border-radius:10px;width:40px;height:40px;cursor:pointer;opacity:.8;background:rgba(18,24,58,.06);text-align:center;transition:border .5s;border:1px solid rgba(18,24,58,.06);-moz-transition:border .5s;-webkit-transition:border .5s;-o-transition:border .5s}.goTop>span:hover{border:1px solid #6680b3}.goTop{position:fixed;right:30px;bottom:80px}.goTop>span>svg{width:20px;height:20px;opacity:.7}}@media screen and (max-width:600px){.goTop{display:none}}</style><div class="goTop" id="js-go_top"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g><path d="M13 12v8h-2v-8H4l8-8 8 8z"></path></g></svg></span></div><script>$("#js-go_top").gotoTop({offset:500,speed:300,animationShow:{transform:"translate(0,0)",transition:"transform .5s ease-in-out"},animationHide:{transform:"translate(100px,0)",transition:"transform .5s ease-in-out"}})</script><script defer>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script><script>const data = '{"clientID":"8c7e2048c78b8bc2a849","clientSecret":"011c69973020c48e4bc0f897b4f7d54f04ea84a5","repo":"jesslynwong.github.io","owner":"Jesslynwong","admin":"Jesslynwong"}'
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2022/08/20/docker/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>Docker</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2022/06/27/browserWork/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>一文看懂浏览器原理</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2022 By Jesslyn wongkayan.
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/Jesslynwong">
+			<img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+<!-- Baidu Analytics -->
+<script defer>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"8c7e2048c78b8bc2a849","clientSecret":"011c69973020c48e4bc0f897b4f7d54f04ea84a5","repo":"jesslynwong.github.io","owner":"Jesslynwong","admin":"Jesslynwong"}'
         const gitalk = new Gitalk({
             ...JSON.parse( data),
             id:location.pathname,
@@ -51,4 +640,12 @@ window.postMessage(JSON.stringify(data), &#39;http://www.demo1.com&#39;);
         
         if(Boolean('true')){
             gitalk.render('gitalk-container')
-        }</script><script>console.log("\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n","color: #fadfa3; background: #030307; padding:5px 0;","background: #fadfa3; padding:5px 0;")</script><script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var t,r=0;r<c.length;r++)0<=(t=(t=c[r]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n()},e.src=i}()}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this)</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})})</script></body></html>
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var t,r=0;r<c.length;r++)0<=(t=(t=c[r]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}()}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>
+

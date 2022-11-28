@@ -1,13 +1,316 @@
-<!DOCTYPE html><html><head><title>type checker —— 不可不知的typescript类型</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="shortcut icon" type="image/x-icon" href="/image/logo.jpg"><link rel="stylesheet" href="/css/index.css"><meta name="keywords" content="typescript,"><meta name="description" content=""><script src="/js/jquery.min.js"></script><script src="/js/index.js"></script><script src="/js/fancybox.umd.js"></script><script src="/js/fancybox-images.js"></script><script src="/js/gitalk.min.js"></script><script src="/js/hljs.min.js"></script><script>hljs.highlightAll()</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="header"><div class="header-top" id="header-top"><div class="h-left"><a href="/"><img src="/image/loading.gif" data-original="/image/header.png" alt="Quiet"></a></div><div class="h-right"><ul><li><a href="/">HOME</a><span class="dot"></span></li><li><a href="/archives">ARCHIVE</a><span class="dot"></span></li><li><a href="/tags">TAGS</a><span class="dot"></span></li><li><a href="/about">ABOUT ME</a><span class="dot"></span></li></ul></div><div class="h-right-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)"/></svg></div></div></div><div class="sidebar"><div class="topo"><h2>Jesslyn wongkayan</h2></div><ul><li><a href="/">HOME</a></li><li><a href="/archives">ARCHIVE</a></li><li><a href="/tags">TAGS</a></li><li><a href="/about">ABOUT ME</a></li></ul><div class="my_foot"><a target="_blank" rel="noopener" href="https://github.com/Jesslynwong"><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题"></a></div></div><div class="shelter"></div><style>.shelter{background-color:#333;opacity:.5;cursor:pointer;display:none;position:fixed;left:0;top:0;right:0;bottom:0;z-index:1998}.sidebar{width:66%;height:100%;position:fixed;top:0;right:-100%;bottom:0;background:#fff;z-index:1999;text-align:center;box-shadow:-6px 0 20px rgba(98,94,94,.815)}.topo{width:100%;height:200px;background:url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;background-size:100% 100%;position:relative;display:flex;align-items:flex-end}.topo h2{color:#fff;z-index:1;position:relative;margin:0 0 10px 10px;font-size:1.2em;box-sizing:border-box}.topo:before{content:'';background-image:url(/image/pattern.png);background-repeat:repeat;height:100%;left:0;position:absolute;top:0;width:100%;z-index:1}.sidebar ul{width:100%;margin-top:50px}.sidebar ul li{height:50px;list-style:none;font-size:1.2em;text-align:right;margin-right:10px}.sidebar ul li a{display:grid;color:#5d606a;text-overflow:ellipsis;width:100%;text-decoration:none}.my_foot{width:100%;padding:10px;margin-bottom:10px;position:absolute;bottom:0}.my_foot a{text-decoration:none;margin-right:10px;display:inline-block}.my_foot a img{width:30px;height:30px}</style><script>$(function(){$(".h-right-close>svg").click(function(){$(".sidebar").animate({right:"0"},500),$(".shelter").fadeIn("slow")}),$(".shelter").click(function(e){$(".sidebar").animate({right:"-100%"},500),$(".shelter").fadeOut("slow")})})</script><div class="post"><div class="post-header-background post-header-img" style="background:url(https://api.ixiaowai.cn/gqapi/gqapi.php)"><div class="post-header-background-content"><ul class="post-header-tag"><li><a href="/tags/typescript">typescript</a></li></ul><h1>type checker —— 不可不知的typescript类型</h1><div class="post-header-info"><div class="post-header-info-author"><svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20"><path d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1zm0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4zm0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6zm0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9zm0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z" p-id="2902" fill="#ffffff"></path></svg> <span class="post-header-info-author-text"><a target="_blank" rel="noopener" href="https://jesslynwong.github.io/about">Jesslyn</a></span><div class="post-header-info-author-categories"></div><p>2022-11-27 23:07:00</p></div></div></div></div><div class="post-content" id="content"><div id="article" class="post-content-info"><p>typescript是一个type checker。主要用来弥补javascript这种动态语言带来的不便。动态语言（弱类型）的变量类型是运行时被赋值后才有某种类型。这样一来，当项目越来越大的时候，当类型出现错误的时候，在编译时就能够确定对象的类型，显得尤为重要，因此就出现了typescript。</p><h2 id="ts-es5-es6-关系"><a href="#ts-es5-es6-关系" class="headerlink" title="ts, es5, es6 关系"></a>ts, es5, es6 关系</h2><p>一般来说浏览器和node是识别不了TS的，因此在日常开发过程中，TS会通过类型擦除等转化，如webpack的ts-loader等把TS转化成浏览器和node可识别的JS运行。</p><p>TS主要通过TS类型擦除城es6可以运行在node或者浏览器特定版本以上，如果出现不兼容es6的情况，可以转译成es5，再打包成单文件，到浏览器中运行。</p><h2 id="数据类型-datatype"><a href="#数据类型-datatype" class="headerlink" title="数据类型 datatype"></a>数据类型 datatype</h2><p>学习TS主要得把类型看成集合的概念，这样很多东西都可以理解了，比如泛型中有特定的数字等。</p><p>JS类型：string, number, boolean, null, undefined, bigint, symbol, object</p><p>TS在JS的基础上增加了: void, never, any, enum, unknown, 自定义类型：type, interface</p><h3 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h3><p>对于基础类型，我们一般直接通过小写或者大写类型来进行定义，举个🌰</p><pre><code class="typescript">const num:number = 1
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>type checker —— 不可不知的typescript类型</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/logo.jpg">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="typescript,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/loading.gif" data-original="/image/header.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT ME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>Jesslyn wongkayan</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT ME</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Jesslynwong">
+            <img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/typescript">typescript</a></li>
+            
+            
+        </ul>
+        
+        <h1>type checker —— 不可不知的typescript类型</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a target="_blank" rel="noopener" href="https://jesslynwong.github.io/about">Jesslyn</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                </div>
+                <p>2022-11-27 23:07:00</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <p>typescript是一个type checker。主要用来弥补javascript这种动态语言带来的不便。动态语言（弱类型）的变量类型是运行时被赋值后才有某种类型。这样一来，当项目越来越大的时候，当类型出现错误的时候，在编译时就能够确定对象的类型，显得尤为重要，因此就出现了typescript。</p>
+<h2 id="ts-es5-es6-关系"><a href="#ts-es5-es6-关系" class="headerlink" title="ts, es5, es6 关系"></a>ts, es5, es6 关系</h2><p>一般来说浏览器和node是识别不了TS的，因此在日常开发过程中，TS会通过类型擦除等转化，如webpack的ts-loader等把TS转化成浏览器和node可识别的JS运行。</p>
+<p>TS主要通过TS类型擦除城es6可以运行在node或者浏览器特定版本以上，如果出现不兼容es6的情况，可以转译成es5，再打包成单文件，到浏览器中运行。</p>
+<h2 id="数据类型-datatype"><a href="#数据类型-datatype" class="headerlink" title="数据类型 datatype"></a>数据类型 datatype</h2><p>学习TS主要得把类型看成集合的概念，这样很多东西都可以理解了，比如泛型中有特定的数字等。</p>
+<p>JS类型：string, number, boolean, null, undefined, bigint, symbol, object</p>
+<p>TS在JS的基础上增加了: void, never, any, enum, unknown, 自定义类型：type, interface</p>
+<h3 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h3><p>对于基础类型，我们一般直接通过小写或者大写类型来进行定义，举个🌰</p>
+<pre><code class="typescript">const num:number = 1
 const num:Number = 1
-</code></pre><p>探讨一下两者有什么区别呢？number是基础类型，Number是包装对象。当定义为number的时候，在内存中给开辟的是一段栈空间存储number值。定义为Number开辟的是堆内存，在内存中不仅仅只有数值本身，还具有Number方法，比如toFixed等。因此对于普通对象，我们一般不写包装类型对象。</p><p>那既然number没有方法，那为什么定义为number的时候还能使用方法呢？主要是因为number这类基础类型会进行包装类型的转化。举个🌰</p><pre><code class="js">let num = 1.23435
+</code></pre>
+<p>探讨一下两者有什么区别呢？number是基础类型，Number是包装对象。当定义为number的时候，在内存中给开辟的是一段栈空间存储number值。定义为Number开辟的是堆内存，在内存中不仅仅只有数值本身，还具有Number方法，比如toFixed等。因此对于普通对象，我们一般不写包装类型对象。</p>
+<p>那既然number没有方法，那为什么定义为number的时候还能使用方法呢？主要是因为number这类基础类型会进行包装类型的转化。举个🌰</p>
+<pre><code class="js">let num = 1.23435
 let afterTransfer = num.toFixed(2) // 1.23
 // 实际上进行了以下转化
 let temp = Number(num)
 let value = temp.toFixed(2)
 delete temp
 return value
-</code></pre><h3 id="对象类型"><a href="#对象类型" class="headerlink" title="对象类型"></a>对象类型</h3><p>Number, String, Object等属于对象object，那么在定义的时候写成object，<code>num:object = 1</code> 和<code>num:object = &#39;hhh&#39;</code>都不会报错。但这失去了我们对TS类型检查的期待。所以，定义对象类型的时，不要写成object</p><p>由于包装类型的问题，object太不精确，所以一般使用<code>索引签名</code>或者<code>Record泛型</code> 来描述普通对象。</p><pre><code class="ts">// 索引签名
+</code></pre>
+<h3 id="对象类型"><a href="#对象类型" class="headerlink" title="对象类型"></a>对象类型</h3><p>Number, String, Object等属于对象object，那么在定义的时候写成object，<code>num:object = 1</code> 和<code>num:object = &#39;hhh&#39;</code>都不会报错。但这失去了我们对TS类型检查的期待。所以，定义对象类型的时，不要写成object</p>
+<p>由于包装类型的问题，object太不精确，所以一般使用<code>索引签名</code>或者<code>Record泛型</code> 来描述普通对象。</p>
+<pre><code class="ts">// 索引签名
 type A = &#123;
   [k: string]: number
 &#125;
@@ -23,7 +326,9 @@ const a:A = &#123;
     name: string,
   age: &#39;23&#39; // 这里用字符串也OK，数字会toString隐式转化
 &#125;
-</code></pre><h3 id="数组对象"><a href="#数组对象" class="headerlink" title="数组对象"></a>数组对象</h3><p>由于直接写类型中直接写Array并没有说清楚具体数组里面类型，不精确，因此以下三种方式描述数组</p><pre><code class="ts">// 1. Array&lt;?&gt;
+</code></pre>
+<h3 id="数组对象"><a href="#数组对象" class="headerlink" title="数组对象"></a>数组对象</h3><p>由于直接写类型中直接写Array并没有说清楚具体数组里面类型，不精确，因此以下三种方式描述数组</p>
+<pre><code class="ts">// 1. Array&lt;?&gt;
 type A = Array&lt;string&gt;
 const a:A = [&#39;w&#39;,&#39;y&#39;,&#39;q&#39;,&#39;d&#39;,&#39;c&#39;]
 // 2. string[]
@@ -33,10 +338,14 @@ const b:string[] = [&#39;w&#39;,&#39;y&#39;,&#39;q&#39;,&#39;d&#39;,&#39;c&#39;]
 // 3. [string, number]
 type C = [string, number]
 const c:C = [&#39;y&#39;, 5]
-</code></pre><h3 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h3><p>类型中直接写成Function，不会出现报错</p><pre><code class="ts">var add: Function = () =&gt; &#123;
+</code></pre>
+<h3 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h3><p>类型中直接写成Function，不会出现报错</p>
+<pre><code class="ts">var add: Function = () =&gt; &#123;
   console.log(11111)
 &#125;
-</code></pre><p>但是对于输出结果来说，并不能知道其类型。因此一般使用<code>()=&gt;xxx</code>来表示其类型</p><pre><code class="ts">// 使用类型写法
+</code></pre>
+<p>但是对于输出结果来说，并不能知道其类型。因此一般使用<code>()=&gt;xxx</code>来表示其类型</p>
+<pre><code class="ts">// 使用类型写法
 type FnType = () =&gt; void
 const fn:FnType = () =&gt; &#123; console.log(11111) &#125; // 箭头函数
 function fn:FnType() &#123;	// 普通函数
@@ -66,8 +375,13 @@ type FnType = () =&gt; undefined
 const fn:FnType = () =&gt; &#123;
   return null
 &#125;
-</code></pre><h3 id="any-和-unknown"><a href="#any-和-unknown" class="headerlink" title="any 和 unknown"></a>any 和 unknown</h3><p>any和unknown主要的区别在于unknown有断言的机会，但是any没有断言的机会，基本用了any之后，类型都能被检测通过。</p><h3 id="never"><a href="#never" class="headerlink" title="never"></a>never</h3><p>never主要是用来判断而不是用来声明的，有never基本可以判断用户错了。举个🌰</p><pre><code class="ts">type a = string &amp;&amp; number // string交number = 空集 -&gt; never
-</code></pre><h3 id="enum枚举类型"><a href="#enum枚举类型" class="headerlink" title="enum枚举类型"></a>enum枚举类型</h3><p>enum类型应用场景比较少，一般来说，number enum应用比较多，string和其他类型enum可以通过泛型来定义，用enum反而多此一举</p><pre><code class="ts">// 1. 通过标识辨别当前状态
+</code></pre>
+<h3 id="any-和-unknown"><a href="#any-和-unknown" class="headerlink" title="any 和 unknown"></a>any 和 unknown</h3><p>any和unknown主要的区别在于unknown有断言的机会，但是any没有断言的机会，基本用了any之后，类型都能被检测通过。</p>
+<h3 id="never"><a href="#never" class="headerlink" title="never"></a>never</h3><p>never主要是用来判断而不是用来声明的，有never基本可以判断用户错了。举个🌰</p>
+<pre><code class="ts">type a = string &amp;&amp; number // string交number = 空集 -&gt; never
+</code></pre>
+<h3 id="enum枚举类型"><a href="#enum枚举类型" class="headerlink" title="enum枚举类型"></a>enum枚举类型</h3><p>enum类型应用场景比较少，一般来说，number enum应用比较多，string和其他类型enum可以通过泛型来定义，用enum反而多此一举</p>
+<pre><code class="ts">// 1. 通过标识辨别当前状态
 enum A &#123;
   todo = 0,
   done,
@@ -100,7 +414,232 @@ if ((user.permission &amp; Permission.Write) === Permission.Write) &#123;
 if((user.permission &amp; Permission.Manage) === Permission.Manage) &#123;
   console.log(&#39;拥有管理权限&#39;)
 &#125;
-</code></pre></div><div id="gitalk-container"></div></div><script>Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+</code></pre>
+<h3 id="自定义类型：Type-amp-interface"><a href="#自定义类型：Type-amp-interface" class="headerlink" title="自定义类型：Type &amp; interface"></a>自定义类型：Type &amp; interface</h3><p>type是类型别名，给其他类型取的名字，不是真正的类型</p>
+<pre><code class="ts">type Name = string
+type FalseLike = &#39;&#39; | 0 | false | null | undefined
+type Points = &#123;x: number; y: number&#125;
+type Line = [Points,Points]
+</code></pre>
+<h4 id="interface和type的区别"><a href="#interface和type的区别" class="headerlink" title="interface和type的区别"></a>interface和type的区别</h4><ol>
+<li>interface只描述对象（Array, Function, Date, Map, Set），type能描述所有类型数据</li>
+<li>type只是别名，interface是类型声明</li>
+<li>扩展性以及使用上来说，对外API尽量使用interface，方便扩展；对内API尽量使用type，防止代码分散。</li>
+</ol>
+<p>interface可以扩展的原因在于，interface是对象，能直接合并，type可能不是对象，所以不能重新赋值。比如在扩展封装axios时，封装自定义的属性，以达到方便</p>
+<pre><code class="ts">import &#123;AxioRequestConfig&#125; from &#39;axios&#39;
+declare module &#39;axios&#39; &#123;
+  export interface AxioRequestConfig &#123;
+    autoLoading: boolean,
+    mock: string
+  &#125;
+&#125;
+</code></pre>
+<p>当然type也不是不能拓展，就是有点麻烦</p>
+<pre><code class="ts">// type类型合并
+type A = Array&lt;string&gt; &amp; &#123;
+  name: string
+&#125; &amp; X
+
+// interface类型扩展
+interface X &#123;
+  age:number
+&#125;
+interface A2 extends Array&lt;string&gt;, X &#123;
+  name: string
+&#125;
+// 扩展全局的string，在d.ts里面声明
+declare global &#123;
+  interface String &#123;
+    padZero(s:string):void
+  &#125;
+&#125;
+</code></pre>
+<h3 id="类型收窄"><a href="#类型收窄" class="headerlink" title="类型收窄"></a>类型收窄</h3><p>类型是可以联合的，但是在使用的时候，通过类型收窄，可以处理不同类型下的逻辑。并且还不确定类型的时候就访问其中一个类型特有的属性或方法会报错，因为ts判断不了使用的是哪个类型下的方法，因此需要类型收窄来具体化。</p>
+<p>在JS中，一般通过<code>typeof</code>或者<code>instanceof</code>进行类型收窄。</p>
+<blockquote>
+<p>typeof用来判断基础类型，对于引用类型和null，一概为object</p>
+<p>instanceof不支持string. number, bool等基础类型，主要是instanceof主要通过沿着proto来判断类型，基础类型不在原型链上。并且不支持TS独有的类型</p>
+</blockquote>
+<p>在TS中，主要有以下三种方法</p>
+<ol>
+<li>通过<code>in</code>判断某个属性是否在对象上，这个时候既不能用typeof或者instanceof来判断。但这有个局限是in只能用于部分对象</li>
+</ol>
+<pre><code class="ts">type Person &#123;
+name: string
+&#125;
+type Animal = &#123;
+    x:string
+&#125;
+const fn = (a: Person | Animal) =&gt; &#123;
+    if (&#39;name&#39; in a) &#123;
+    //xxxxxx
+    &#125;else if(&#39;x&#39; in a)&#123;
+    xxxxxx
+    &#125;
+&#125;
+</code></pre>
+<ol start="2">
+<li>通过<code>is</code>同样能判断某个属性是否在对象上</li>
+</ol>
+<pre><code class="ts">type Person &#123;
+name: string
+&#125;
+type Animal = &#123;
+    x:string
+&#125;
+function fn(a: Person | Animal):x is Animal =&gt; &#123;
+    if (&#39;name&#39; in a) &#123;
+    //xxxxxx
+    &#125;else if(&#39;x&#39; in a)&#123;
+    xxxxxx
+    &#125;
+&#125;
+</code></pre>
+<ol start="3">
+<li>如果两个类型具有同样属性而其中属性的类型不同，那么怎么判断具体所指的类型呢？可以通过在类型中添加统一的标识符<code>kind</code>判断属性区别，kind是简单类型，并且各属性的kind没有交集</li>
+</ol>
+<pre><code class="ts">type Cricle = &#123;kind:&#39;circle&#39;, x?:[number, number]&#125;
+type Rect = &#123;kind:&#39;rect&#39;, x:number&#125;
+type Shape = Circle | Rect
+
+const fn = (a:string | number | Shape) =&gt; &#123;
+    if (typeof a === &#39;string&#39;) &#123;
+    // xxxx
+    &#125; else if(typeof a === &#39;number&#39;) &#123;
+    //xxxx
+    &#125; else if (a.kind === &#39;circle&#39;) &#123;
+    // xxx
+    &#125;
+&#125;
+</code></pre>
+<ol start="4">
+<li>断言</li>
+</ol>
+<pre><code class="ts">interface Cat &#123;
+    name: string;
+    run(): void;
+&#125;
+interface Fish &#123;
+    name: string;
+    swim(): void;
+&#125;
+
+function isFish(animal: Cat | Fish) &#123;
+    if (typeof animal.swim === &#39;function&#39;) &#123;
+        return true;
+    &#125;
+    return false;
+&#125;
+
+// index.ts:11:23 - error TS2339: Property &#39;swim&#39; does not exist on type &#39;Cat | Fish&#39;.
+//   Property &#39;swim&#39; does not exist on type &#39;Cat&#39;.
+</code></pre>
+<p>这个时候可以通过<code>as</code>断言来使得类型具体化</p>
+<pre><code class="ts">function isFish(animal: Cat | Fish) &#123;
+    if (typeof (animal as Fish).swim === &#39;function&#39;) &#123;
+        return true;
+    &#125;
+    return false;
+&#125;
+</code></pre>
+<h3 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h3><p>交叉类型常用于有交集的类型A B，如果A B无交集，那么可能得到never或者属性为never</p>
+<pre><code class="ts">type Person = &#123;
+    id: string
+    name: string
+&#125;
+type User = &#123;
+    id: number
+    email: string
+&#125; &amp; Person
+
+const a :User = &#123;
+    email:&#39;x&#39;,
+    name:&#39;dddd&#39;
+    id: 11111 // Type &#39;number&#39; is not assignable to type &#39;never&#39;.
+&#125;
+</code></pre>
+<p>这个例子中idf属性冲突了，得到id属性为never，而a必须要有email和id，实际上就等于这个User类型不能用了。</p>
+<p>但是把a进行断言为never在编译阶段不会出现报错，如下</p>
+<pre><code class="ts">const a :User = &#123;
+    email:&#39;x&#39;,
+    name:&#39;dddd&#39;
+    id: 11111
+&#125; as never
+</code></pre>
+<p>但是如果使用interface，就会出现报错。从这个角度上来说，interface比type类型判断更紧，所以可拓展性更强，因为不会出现这种因为内在类型错误的情况</p>
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><pre><code class="ts">// ts自动推断
+function fn&lt;T&gt;(a:T): T &#123;
+    return 
+&#125;
+function fn&lt;T,K&gt;(a:T, b:K): T &#123;
+    return 
+&#125;
+//限制泛型范围 
+interface Inter&#123;
+length:number
+&#125;
+// 一定要是子类
+function fn&lt;T extends Inter&gt;(a:T): T &#123;
+    return 
+&#125;
+// 类里面使用
+class Myclass&lt;T&gt; &#123;
+    name:T,
+    constructor(name:T) &#123;
+    this.name = name
+    &#125;
+&#125;
+const mv = new Myclass&lt;string&gt;(name:&#39;kkk&#39;)
+</code></pre>
+<h3 id="Mypick"><a href="#Mypick" class="headerlink" title="Mypick"></a>Mypick</h3><pre><code class="ts">interface Todo &#123;
+    title: string
+    description: string
+    completed: boolean
+&#125;
+
+type TodoPreview = MyPick&lt;Todo, &#39;title&#39; | &#39;completed&#39;&gt;
+
+const todo: TodoPreview = &#123;
+    title: &#39;Clean room&#39;,
+    completed: false,
+&#125;
+// 实现MyPick
+type MyPick&lt;T,K extends keyof T&gt; = &#123;
+[P in K]: T[P]  
+&#125;  
+</code></pre>
+<h3 id="Parameters"><a href="#Parameters" class="headerlink" title="Parameters"></a>Parameters</h3><pre><code class="ts">// 实现MyParameters
+type MyParameters&lt;T extends Function&gt; = T extends (...args: infer aa) =&gt; any? [...aa] : &quot;&quot;;
+const foo = (arg1: string, arg2: number): void =&gt; &#123;&#125;
+
+type FunctionParamsType = MyParameters&lt;typeof foo&gt; // [arg1: string, arg2: number]
+</code></pre>
+<h3 id="MyAwait"><a href="#MyAwait" class="headerlink" title="MyAwait"></a>MyAwait</h3><pre><code class="ts">// 实现MyAwaited
+type MyAwaited&lt;T extends Promise&lt;any&gt;&gt; = T extends Promise&lt;infer P&gt;
+    ? P extends Promise&lt;any&gt; ? MyAwaited&lt;P&gt; : P  // promise里面包着promise，递归
+    :never
+
+type ExampleType = Promise&lt;string&gt;
+type Result = MyAwaited&lt;ExampleType&gt; // string
+</code></pre>
+<h3 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h3><pre><code>```ts
+</code></pre>
+<dl><dt>&#x2F;&#x2F; 实现Zip<br>type Zip&lt;T, U&gt; &#x3D; T extends [infer F, …infer rest] ?<br>U extends [infer UF, …infer Urest] ? [[F, UF], …Zip&lt;rest, Urest&gt;]: []</dt><dd>[] </dd></dl><pre><code>Zip&lt;[], []&gt;, [],
+Zip&lt;[1, 2], [true, false]&gt;, [[1, true], [2, false]]
+Zip&lt;[1, 2, 3], [&#39;1&#39;, &#39;2&#39;]&gt;, [[1, &#39;1&#39;], [2, &#39;2&#39;]]&gt;&gt;,
+Zip&lt;[], [1, 2, 3]&gt;, []
+Zip&lt;[[1, 2]], [3]&gt;, [[[1, 2], 3]]
+```
+</code></pre>
+
+  </div>
+  <div id="gitalk-container"></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
   dragToClose: true,
   Toolbar: true,
   closeButton: "top",
@@ -123,7 +662,155 @@ if((user.permission &amp; Permission.Manage) === Permission.Manage) &#123;
       );
     },
   },
-});</script><style>#noneimg img{display:none;z-index:9999;min-width:0;max-width:90%;max-height:80%;border-radius:0;position:fixed;box-shadow:0 0 0 #c3c3c300!important;left:0;top:0;right:0;bottom:0;margin:auto!important}@media screen and (max-width:600px){#noneimg img{max-width:88%}}</style><div class="post-paging"><a href="/2022/11/24/vueBeginner/"><div class="post-paging-next"><span>下一篇</span><p>零基础挑战一天学习VUE</p></div></a></div></div><div class="footer"><div class="Copyright">©2022 By Jesslyn wongkayan.</div><div class="contact"><a target="_blank" rel="noopener" href="https://github.com/Jesslynwong"><img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题"></a></div></div><script src="/js/gotop.js"></script><style>@media screen and (min-width:600px){.goTop>span{display:flex;align-items:center;justify-content:center;border-radius:10px;width:40px;height:40px;cursor:pointer;opacity:.8;background:rgba(18,24,58,.06);text-align:center;transition:border .5s;border:1px solid rgba(18,24,58,.06);-moz-transition:border .5s;-webkit-transition:border .5s;-o-transition:border .5s}.goTop>span:hover{border:1px solid #6680b3}.goTop{position:fixed;right:30px;bottom:80px}.goTop>span>svg{width:20px;height:20px;opacity:.7}}@media screen and (max-width:600px){.goTop{display:none}}</style><div class="goTop" id="js-go_top"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g><path d="M13 12v8h-2v-8H4l8-8 8 8z"></path></g></svg></span></div><script>$("#js-go_top").gotoTop({offset:500,speed:300,animationShow:{transform:"translate(0,0)",transition:"transform .5s ease-in-out"},animationHide:{transform:"translate(100px,0)",transition:"transform .5s ease-in-out"}})</script><script defer>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script><script>const data = '{"clientID":"8c7e2048c78b8bc2a849","clientSecret":"011c69973020c48e4bc0f897b4f7d54f04ea84a5","repo":"jesslynwong.github.io","owner":"Jesslynwong","admin":"Jesslynwong"}'
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+
+    
+    <a href="/2022/11/24/vueBeginner/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>零基础挑战一天学习VUE</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2022 By Jesslyn wongkayan.
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/Jesslynwong">
+			<img src="/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+<!-- Baidu Analytics -->
+<script defer>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"8c7e2048c78b8bc2a849","clientSecret":"011c69973020c48e4bc0f897b4f7d54f04ea84a5","repo":"jesslynwong.github.io","owner":"Jesslynwong","admin":"Jesslynwong"}'
         const gitalk = new Gitalk({
             ...JSON.parse( data),
             id:location.pathname,
@@ -132,4 +819,12 @@ if((user.permission &amp; Permission.Manage) === Permission.Manage) &#123;
         
         if(Boolean('true')){
             gitalk.render('gitalk-container')
-        }</script><script>console.log("\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n","color: #fadfa3; background: #030307; padding:5px 0;","background: #fadfa3; padding:5px 0;")</script><script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var t,r=0;r<c.length;r++)0<=(t=(t=c[r]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n()},e.src=i}()}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this)</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})})</script></body></html>
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var t,r=0;r<c.length;r++)0<=(t=(t=c[r]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}()}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>
+
